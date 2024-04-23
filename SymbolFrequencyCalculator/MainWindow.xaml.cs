@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using Microsoft.Win32;
 
 namespace SymbolFrequencyCalculator
 {
@@ -13,14 +14,26 @@ namespace SymbolFrequencyCalculator
             InitializeComponent();
         }
 
+        private void BrowseButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                FilePathTextBox.Text = openFileDialog.FileName;
+            }
+        }
+
         private void CalculateButton_Click(object sender, RoutedEventArgs e)
         {
             string filePath = FilePathTextBox.Text;
 
             if (File.Exists(filePath))
             {
+                // Task 1: Calculate symbol frequencies
                 Dictionary<char, int> symbolFrequencies = CalculateSymbolFrequencies(filePath);
 
+                // Task 2: Calculate entropy
                 double entropy = CalculateEntropy(symbolFrequencies);
 
                 OutputTextBox.Text = "Symbol frequencies:\n";
@@ -71,4 +84,8 @@ namespace SymbolFrequencyCalculator
         }
     }
 }
+
+
+
+
 
